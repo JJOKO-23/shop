@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>shop</title>
+</head>
+<body>
+    <link rel="stylesheet" href="dist/style.css">
+   
+  <header>
+    <div class="header__top">
+      <div class="container">
+     <a class="tel" href="#">+996777084080</a>
+     <a class="ema" href="#">jjoko2001@gmail.com</a>
+     <div class="pop2"  >
+       <button><li><a href="#levis">levis</a> </li></button>
+      <button><li><a href="#nike">Nike</a> </li></button>
+      <button><li><a href="#adi">Adidas</a> </li></button>
+      <button><li><a href="#loh">off-white</a> </li></button>
+      <button><li><a href="#luis">Louis Vuitton</a> </li></button>
+    </div>  
+
+      </div>
+    </div>
+ 
+  
+
+      <style>
+        
+        body {
+          margin: 0;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+          color: #fff;
+          height: 3000px;
+        }
+    
+        .slider {
+          position: relative;
+          overflow: hidden;
+        }
+    
+        .slider__wrapper {
+          display: flex;
+          transition: transform 0.6s ease;
+        }
+    
+        .slider__item {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+    
+        .slider__control {
+          position: absolute;
+          top: 50%;
+          display: none;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          color: #fff;
+          text-align: center;
+          opacity: 0.5;
+          height: 50px;
+          transform: translateY(-50%);
+          background: rgba(0, 0, 0, .5);
+        }
+    
+        .slider__control_show {
+          display: flex;
+        }
+    
+        .slider__control:hover,
+        .slider__control:focus {
+          color: #fff;
+          text-decoration: none;
+          outline: 0;
+          opacity: .9;
+        }
+    
+        .slider__control_left {
+          left: 0;
+        }
+    
+        .slider__control_right {
+          right: 0;
+        }
+    
+        .slider__control::before {
+          content: '';
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          background: transparent no-repeat center center;
+          background-size: 100% 100%;
+        }
+    
+        .slider__control_left::before {
+          background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+        }
+    
+        .slider__control_right::before {
+          background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+        }
+    
+        .slider__item>div {
+          line-height: 250px;
+          font-size: 100px;
+          text-align: center;
+        }
+      </style>
+    </head>
+    
+    <body>
+    
+      <div class="slider">
+        <div class="slider__wrapper">
+          <div class="slider__item">
+            <div ><img src="k2.jpeg" alt=""width="1503 "height="500"></div>
+          </div>
+          <div class="slider__item">
+            <div ><img src="k3.jpg" alt=""width="1503 "height="500"></div>
+          </div>
+          <div class="slider__item">
+            <div ><img src="k4.jpg" alt=""width="1503 "height="500"></div>
+          </div>
+          <div class="slider__item">
+            <div ><img src="levis chel.png" alt=""width="1503 "height="500"></div>
+          </div>
+        </div>
+        <a class="slider__control slider__control_left" href="#" role="button"></a>
+        <a class="slider__control slider__control_right slider__control_show" href="#" role="button"></a>
+      </div>
+    
+      <script>
+        'use strict';
+        var multiItemSlider = (function () {
+          return function (selector, config) {
+            var
+              _mainElement = document.querySelector(selector), // основный элемент блока
+              _sliderWrapper = _mainElement.querySelector('.slider__wrapper'), // обертка для .slider-item
+              _sliderItems = _mainElement.querySelectorAll('.slider__item'), // элементы (.slider-item)
+              _sliderControls = _mainElement.querySelectorAll('.slider__control'), // элементы управления
+              _sliderControlLeft = _mainElement.querySelector('.slider__control_left'), // кнопка "LEFT"
+              _sliderControlRight = _mainElement.querySelector('.slider__control_right'), // кнопка "RIGHT"
+              _wrapperWidth = parseFloat(getComputedStyle(_sliderWrapper).width), // ширина обёртки
+              _itemWidth = parseFloat(getComputedStyle(_sliderItems[0]).width), // ширина одного элемента    
+              _positionLeftItem = 0, // позиция левого активного элемента
+              _transform = 0, // значение транфсофрмации .slider_wrapper
+              _step = _itemWidth / _wrapperWidth * 100, // величина шага (для трансформации)
+              _items = []; // массив элементов
+            // наполнение массива _items
+            _sliderItems.forEach(function (item, index) {
+              _items.push({ item: item, position: index, transform: 0 });
+            });
+    
+            var position = {
+              getMin: 0,
+              getMax: _items.length - 1,
+            }
+    
+            var _transformItem = function (direction) {
+              if (direction === 'right') {
+                if ((_positionLeftItem + _wrapperWidth / _itemWidth - 1) >= position.getMax) {
+                  return;
+                }
+                if (!_sliderControlLeft.classList.contains('slider__control_show')) {
+                  _sliderControlLeft.classList.add('slider__control_show');
+                }
+                if (_sliderControlRight.classList.contains('slider__control_show') && (_positionLeftItem + _wrapperWidth / _itemWidth) >= position.getMax) {
+                  _sliderControlRight.classList.remove('slider__control_show');
+                }
+                _positionLeftItem++;
+                _transform -= _step;
+              }
+              if (direction === 'left') {
+                if (_positionLeftItem <= position.getMin) {
+                  return;
+                }
+                if (!_sliderControlRight.classList.contains('slider__control_show')) {
+                  _sliderControlRight.classList.add('slider__control_show');
+                }
+                if (_sliderControlLeft.classList.contains('slider__control_show') && _positionLeftItem - 1 <= position.getMin) {
+                  _sliderControlLeft.classList.remove('slider__control_show');
+                }
+                _positionLeftItem--;
+                _transform += _step;
+              }
+              _sliderWrapper.style.transform = 'translateX(' + _transform + '%)';
+            }
+    
+            // обработчик события click для кнопок "назад" и "вперед"
+            var _controlClick = function (e) {
+              if (e.target.classList.contains('slider__control')) {
+                e.preventDefault();
+                var direction = e.target.classList.contains('slider__control_right') ? 'right' : 'left';
+                _transformItem(direction);
+              }
+            };
+    
+            var _setUpListeners = function () {
+              // добавление к кнопкам "назад" и "вперед" обрботчика _controlClick для событя click
+              _sliderControls.forEach(function (item) {
+                item.addEventListener('click', _controlClick);
+              });
+            }
+    
+            // инициализация
+            _setUpListeners();
+    
+            return {
+              right: function () { // метод right
+                _transformItem('right');
+              },
+              left: function () { // метод left
+                _transformItem('left');
+              }
+            }
+    
+          }
+        }());
+    
+        var slider = multiItemSlider('.slider')
+    
+      </script>
+
+          
+  
+  </header>
+  <div>
+    
+  <p id="ram" align="center">
+    это ознокомительный сайт по истории известных магазинов,надеюсь он вам понравиться !
+      сдесь бдует информация как и в каком году был создан магазин .
+
+  </p>
+  <br>
+
+
+<br>
+<br>
+
+  <hr >
+   
+  <section id="levis">
+    <p><img src="https://cdn.worldvectorlogo.com/logos/levi-s-authorised-dealer-taiwan.svg" alt="" width="335
+      height="335 align="left"hspace="20" > 
+      
+      <br><br>
+     
+     <p align="center "> 
+         В 1849 году в Калифорнии начали добывать золото. В 1853 году Ливай Штраусс привёз морем в Сан-Франциско галантерейные товары, которые были раскуплены на корабле ещё до того, как тот зашёл в порт! Осталась только парусина. Штраусс заказал у портного штаны из этой ткани, которые были мгновенно раскуплены. Тогда предприниматель скупил паруса на 700 кораблях, стоявших в гавани, поскольку их экипажи бросили суда и отправились на прииски.
+  
+     </p>
+  
+  <p align="center"    >
+      В 1853 году Ливай Штраусс и его двоюродный брат Дэвид открыли галантерейный магазин «Levi Strauss & Co.». Штраусс шил штаны из любой прочной ткани и доставлял готовую продукцию и другие товары в лагеря золотоискателей и в ближайшие городки. Впоследствии вместо парусины штаны начали шить из более мягкой французской ткани, на рулонах которой было написано «Serge de Nime» («саржа из Нима)». Старатели сократили её название до слова «деним».
+  </p>
+  <p align="center">
+      В 1849 году в Калифорнии начали добывать золото. В 1853 году Ливай Штраусс привёз морем в Сан-Франциско галантерейные товары, которые были раскуплены на корабле ещё до того, как тот зашёл в порт! Осталась только парусина. Штраусс заказал у портного штаны из этой ткани, которые были мгновенно раскуплены. Тогда предприниматель скупил паруса на 700 кораблях, стоявших в гавани, поскольку их экипажи бросили суда и отправились на прииски.
+  </p>
+  
+  </p>  
+  
+  <br><br><br><br><hr>
+  </section >
+  <br>
+  <section id="nike">
+    <div>
+      <br>
+      <img src="https://pm1.narvii.com/5793/45ae2de70e3c67ba1c15f8aa3902ad0f25b79634_00.jpg" alt="" width="376"
+      height="270" align="left"hspace="20"><br>
+    <p align="center">
+      Компания была основана в 1964 году студентом Филом Найтом, бегуном на средние дистанции в команде Орегонского университета, и его тренером Биллом Бауэрманом[en]. Сначала она была названа Blue Ribbon Sports, её первой операцией стал заказ 300 пар кроссовок у японской фирмы Onitsuka Tiger (в настоящее время ASICS) для перепродажи в США. В 1966 был открыт первый магазин компании, до этого кроссовки продавались с машин.
+    </p>
+    <p align="center">
+      Вскоре компания стала не просто перепродавать японские кроссовки, но и заказывать обувь собственного дизайна, первой успешной моделью стали кроссовки Cortez, разработанные Бауэрманом в 1968 году. В 1971 году компания получила дополнительное финансирование от японского торгового дома Nissho Iwai Corporation (с 2004 года Sojitz[en]) и смогла существенно расширить свои операции, в этом же году началось использование торговой марки Nike и фирменного росчерка (Swoosh).
+    </p>
+    <p align="center">
+      В 1972 году были разработаны кроссовки Nike Moon с вафлеобразным рисунком подошвы, полученным с помощью обычной вафельницы, в этом же году компания вышла на рынок Канады, а в 1974 году на рынок Австралии. Начиная с Олимпиады 1972 года, компания начала сотрудничать с известными и перспективными спортсменами для продвижения своей продукции[7].
+    </p>
+  </div>
+  <br>
+    
+
+  </section>
+  <br>
+  <hr>
+  <br><br><br>
+  <section id="adi">
+    <div>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Adidas_Logo.svg/300px-Adidas_Logo.svg.png" alt=""width="309"
+height="270" align="left"hspace="20">
+
+<p align="center">
+  Вскоре после Первой мировой войны, в начале 1920-х годов, Дасслеры на семейном совете решили организовать семейное дело — пошив обуви. Первой продукцией семьи Дасслер были домашние тапочки и ортопедическая обувь для тренировок спортсменов-инвалидов (которых было много после войны). Материалом для них служило списанное военное обмундирование, а подошвы вырезали из старых автомобильных покрышек. Основную роль в этом семейном предприятии играли братья Адольф (Ади) и Рудольф (Руди) Дасслеры, в 1924 году они официально зарегистрировали «Обувную фабрику братьев Дасслер» («Gebrüder Dassler»)
+</p>
+
+<p align="center">
+  Два брата с противоположными характерами дополняли друг друга — Адольф — спокойный и уравновешенный производитель, в то время, как Рудольф — активный и коммуникабельный продавец[3]
+
+В 1925 году Адольф изобрёл и сшил первые в мире футбольные бутсы с шипами. Футбольная модель оказалась удобной и вместе с гимнастическими тапочками стала основной продукцией Дасслеров. Спрос на их обувь был столь велик, что в 1926 году они смогли построить фабрику, на которой работало 25 человек и которая выпускала до 100 пар обуви в день
+</p>
+<p align="center">
+  В 1928 году шиповки братьев, разработанные вместе с Джозефом Вайтцером, получают патент немецкого бюро. На летних олимпийских играх 1928 года в Амстердаме обувь братьев впервые появляется на крупных спортивных соревнованиях. На Олимпиаде 1932 года в Лос-Анджелесе немец Артур Йонат, выступая в обуви «Дасслер», стал третьим в беге на 100 метров. Это стало первым серьёзным успехом рекламной кампании, основанной на сотрудничестве со спортсменами[3].
+</p>
+
+
+    </div>
+    
+
+
+  </section>
+  <br><br>
+  <br>
+  <hr>
+<br><br>
+<section id="loh">
+<div>
+  <br><br>
+  <img src="https://seeklogo.com/images/O/off-white-logo-624772ECF9-seeklogo.com.png" alt=""
+width="285" height="340" align="left" hspace="30">
+
+<p align="center">
+  Организация была основана диджеем, креативным директором и бизнесменом Вирджилом Абло в Милане в 2012 году[1]. Изначально Абло назвал свою компанию «PYREX VISION» и пытался делать самодельные коллаборации с вещами таких брендов как Champion и Ralph Lauren, но столкнулся с негативной реакцией общественности - он наносил на классическое поло свои принты и продавал его за 550$ вместо 69$[3]. В ответ на это Абло в 2013 году создает бренд под названием Off-White и продолжает так же добавлять геометрические принты уже на собственную одежду.
+</p>
+<p align="center">
+  В 2014-м году Off-White попадает в финал престижной премии для молодых дизайнеров LVHM[4].
+  В конце 2017 года Off-White попадает в тройку самых популярных брендов одежды в мире по версии рейтинга Business of Fashion[5].
+  В 2019-м году владелец онлайн-ритейлера Farfetch приобретает New Guards Group, которая владеет брендом Off-White за 625 млн. долларов[6]. С Farfetch был связан и один из скандалов в истории бренда - во время пандемии COVID-19 на данном сайте были представлены дизайнерские защитные маски Off-White по цене от 500 до 1000 долларов, в то время как на менее популярных сайтах эти же маски стоили 70 долларов
+</p>
+<p align="center"> 
+  После негативных комментариев от пользователей и внимания СМИ данные маски сняли с продажи[7].
+
+В мае 2020 года международная платформа по поиску модных товаров Lyst опубликовала рейтинг самых популярных модных брендов за первый квартал 2020 года. За основу были взяты покупки более 9 млн покупателей в 12 тысячах онлайн-магазинах по всему миру, которые были совершены в течение месяца. Первое место в рейтинге досталось бренду Off-White чьей популярность в начале года поспособствовали коллаборации с Evian и выпуск очередной модели кроссовок совместно с Nike[8].
+</p>
+</div>
+</section>
+<br><br><br>
+<hr>
+<br><br>
+
+<section id="luis">
+ <div><img src="pop.png" alt=""
+  width="280"height="315" align="left" hspace="20">
+  <br>
+<p align="center">
+  Луи Виттон родился в 1821 году во Франш-Конте. Ещё в детстве научился пользоваться инструментами своего отца-столяра. В 14 лет Луи решил попытать счастья в Париже, куда отправился пешком; ему пришлось пройти 400 километров, отделявших его от столицы. В 1837 году поступил учеником к мастеру по изготовлению сундуков и стал делать дорожные сундуки.
+
+</p>
+<p align="center">
+  Чемоданов в современном понимании тогда ещё не существовало, таким образом, Луи, придумав их, совершил прорыв в этом деле, совпавший с развитием железнодорожного транспорта и круизных лайнеров, когда люди стали активнее перемещаться. Предложенные мастером плоские чемоданы (они получили название Trianon, по названию специальных непромокаемых тканей, которыми были обтянуты) произвели настоящий фурор: их можно было ставить один на другой и легко открывать сбоку[2].
+
+
+</p>
+
+<p align="center">
+  Луи Виттон также изобрел круглую сумку для шофера (её размещали в отверстии запасного колеса), нетонущий чемодан на воздушной подушке и кофр-секретер, который можно было использовать как письменный стол[3].
+
+  Его слава как мастера по изготовлению чемоданов росла, чему немало способствовала императрица Евгения, жена Наполеона III.
+  
+  В 1854 году Виттон основал свой собственный торговый дом. Следы его до сих пор можно увидеть на фронтоне магазина на Елисейских полях, где значится: «Louis Vuitton, изготовление чемоданов, парижский торговый дом, основанный в 1854 году».
+
+</p>
+
+
+</div> 
+  
+
+
+</section>
+
+<br><br><br>
+
+<div class="the" >
+  <br><br><br><br>
+
+</div>
+</div>
+
+
+
+
+
+</body>
+</html>
