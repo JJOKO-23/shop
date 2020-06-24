@@ -1,0 +1,52 @@
+
+.header__top{
+  background-color:#303030;
+
+
+  
+  
+  
+}
+.container{
+  max-width: 1503;
+margin: 0 auto;
+padding: 0 15px;
+
+
+}
+a{
+  display:inline-block;
+}
+.tel,
+.ema ,.pop2{
+line-height: 35px;
+letter-spacing: 0.25px;
+color: honeydew;
+clear: both;
+
+}
+.tel{
+  padding-left: 20px;
+  padding-right: 30px;
+}
+.ema{
+  padding-left: 20px;
+}
+.the {
+  background-color:black;
+}
+.pop2{
+float: right;
+}
+p{
+  color: black;
+  
+}
+  #ram{
+  border: 2px solid blue;
+  padding: 8px;
+  letter-spacing: 3.9px;
+  }
+
+
+
